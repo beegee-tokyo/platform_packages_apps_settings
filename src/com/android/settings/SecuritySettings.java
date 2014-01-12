@@ -85,6 +85,10 @@ public class SecuritySettings extends RestrictedSettingsFragment
     private static final String KEY_NOTIFICATION_ACCESS = "manage_notification_access";
     private static final String PACKAGE_MIME_TYPE = "application/vnd.android.package-archive";
 
+/**** BEEGEE_CHANGE_START ****/
+    private static final String LOCKSCREEN_QUICK_UNLOCK_CONTROL = "lockscreen_quick_unlock_control";
+/**** BEEGEE_CHANGE_END ****/
+
     private PackageManager mPM;
     private DevicePolicyManager mDPM;
 
@@ -105,6 +109,9 @@ public class SecuritySettings extends RestrictedSettingsFragment
     private CheckBoxPreference mToggleVerifyApps;
     private CheckBoxPreference mPowerButtonInstantlyLocks;
     private CheckBoxPreference mEnableKeyguardWidgets;
+/**** BEEGEE_CHANGE_START ****/
+    CheckBoxPreference mQuickUnlockScreen;
+/**** BEEGEE_CHANGE_END ****/
 
     private Preference mNotificationAccess;
 
@@ -167,6 +174,11 @@ public class SecuritySettings extends RestrictedSettingsFragment
         }
         addPreferencesFromResource(resid);
 
+/**** BEEGEE_CHANGE_START ****/
+        mQuickUnlockScreen = (CheckBoxPreference)
+                root.findPreference(Settings.System.LOCKSCREEN_QUICK_UNLOCK_CONTROL);
+//Log.e("beegee", "SecuritySettings.java -> mQuickUnlockScreen " + mQuickUnlockScreen);
+/**** BEEGEE_CHANGE_END ****/
 
         // Add options for device encryption
         mIsPrimary = UserHandle.myUserId() == UserHandle.USER_OWNER;
@@ -494,6 +506,13 @@ public class SecuritySettings extends RestrictedSettingsFragment
         if (mPowerButtonInstantlyLocks != null) {
             mPowerButtonInstantlyLocks.setChecked(lockPatternUtils.getPowerButtonInstantlyLocks());
         }
+/**** BEEGEE_CHANGE_START ****/
+        if (mQuickUnlockScreen != null) {
+            mQuickUnlockScreen.setChecked(lockPatternUtils.getLockScreenQUickUnlock());
+//boolean logstat = lockPatternUtils.getLockScreenQUickUnlock();
+//Log.e("beegee", "SecuritySettings.java -> mQuickUnlockScreen.setChecked" + logstat);
+        }
+/**** BEEGEE_CHANGE_END ****/
 
         if (mShowPassword != null) {
             mShowPassword.setChecked(Settings.System.getInt(getContentResolver(),
@@ -557,6 +576,11 @@ public class SecuritySettings extends RestrictedSettingsFragment
             lockPatternUtils.setVisiblePatternEnabled(isToggled(preference));
         } else if (KEY_POWER_INSTANTLY_LOCKS.equals(key)) {
             lockPatternUtils.setPowerButtonInstantlyLocks(isToggled(preference));
+/**** BEEGEE_CHANGE_START ****/
+        } else if (LOCKSCREEN_QUICK_UNLOCK_CONTROL.equals(key)) {
+            lockPatternUtils.setLockScreenQUickUnlock(isToggled(preference));
+//Log.e("beegee", "SecuritySettings.java -> key " +key);
+/**** BEEGEE_CHANGE_END ****/
         } else if (KEY_ENABLE_WIDGETS.equals(key)) {
             lockPatternUtils.setWidgetsEnabled(mEnableKeyguardWidgets.isChecked());
         } else if (preference == mShowPassword) {

@@ -594,10 +594,13 @@ public class Settings extends PreferenceActivity
                         target.remove(i);
                     }
                 }
-            } else if (id == R.id.development_settings) {
-                if (!showDev) {
-                    target.remove(i);
-                }
+/**** BEEGEE_CHANGE_START ****/
+/* Developer settings are always shown */
+//            } else if (id == R.id.development_settings) {
+//                if (!showDev) {
+//                    target.remove(i);
+//                }
+/**** BEEGEE_CHANGE_START ****/                
             } else if (id == R.id.account_add) {
                 if (um.hasUserRestriction(UserManager.DISALLOW_MODIFY_ACCOUNTS)) {
                     target.remove(i);
